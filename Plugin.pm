@@ -211,12 +211,8 @@ sub revoke_publishPlayer {
 sub publishPlayer {
     my ( $apname, $password, $port ) = @_;
 
-    my $md5 = md5( $apname );
-
     my $pw_clause = ( length $password ) ? "pw=true" : "pw=false";
-    my @hw_addr = +( map( ord, split( //, $md5 ) ) )[ 0 .. 5 ];
-
-    my $host = "squeezebox";
+    my @hw_addr = +( map( ord, split( //, md5( $apname ) ) ) )[ 0 .. 5 ];
 
     my $pid = fork();
     if ( $pid == 0 ) {
@@ -225,7 +221,7 @@ sub publishPlayer {
             if ( which('avahi-publish-service') ) {
                 $log->info( "start avahi-publish-service \"$apname\"" );
                 exec(
-                    'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host",
+                    'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ),
                     "_raop._tcp",   $port,
                     "tp=UDP",       "sm=false",
                     "sv=false",     "ek=1",
