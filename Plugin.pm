@@ -233,7 +233,7 @@ sub publishPlayer {
                     "cn=0,1",       "ch=2",
                     "ss=16",        "sr=44100",
                     $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
+                    "txtvers=1",    "Name=\"$apname\""
                 );
                 $log->error( "start avahi-publish-service failed" );
             }
@@ -254,7 +254,7 @@ sub publishPlayer {
                     "cn=0,1",       "ch=2",
                     "ss=16",        "sr=44100",
                     $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
+                    "txtvers=1",    "Name=\"$apname\""
                 );
                 $log->error( "start dns-sd failed" );
             }
@@ -274,7 +274,7 @@ sub publishPlayer {
                     "cn=0,1",       "ch=2",
                     "ss=16",        "sr=44100",
                     $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
+                    "txtvers=1",    "Name=\"$apname\""
                 );
                 $log->error( "start mDNSPublish failed" );
             }
