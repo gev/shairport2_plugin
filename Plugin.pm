@@ -218,67 +218,20 @@ sub publishPlayer {
     if ( $pid == 0 ) {
         no warnings;
         eval {
-            if ( which('avahi-publish-service') ) {
-                $log->info( "start avahi-publish-service \"$apname\"" );
-                exec(
-                    'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ),
-                    "_raop._tcp",   $port,
-                    "tp=UDP",       "sm=false",
-                    "sv=false",     "ek=1",
-                    "et=0,1",       "md=0,1,2",
-                    "cn=0,1",       "ch=2",
-                    "ss=16",        "sr=44100",
-                    $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
-                );
-                $log->error( "start avahi-publish-service failed" );
-            }
-            else {
-                $log->info( "avahi-publish-player not in path" );
-            }
+            $log->info( "start avahi-publish-service \"$apname\"" );
+            exec(
+                'avahi-publish-service', $apname,
+                "_raop._tcp",   $port,
+                "tp=UDP",       "sm=false",
+                "sv=false",     "ek=1",
+                "et=0,1",       "md=0,1,2",
+                "cn=0,1",       "ch=2",
+                "ss=16",        "sr=44100",
+                $pw_clause,     "vn=3",
+                "txtvers=1"
+            );
+            $log->error( "start avahi-publish-service failed" );
         };
-        eval {
-            if ( which('dns-sd') ) {
-                $log->info( "start dns-sd \"$apname\"" );
-                exec(
-                    'dns-sd', '-R',
-                    join( '', map { sprintf "%02X", $_ } @hw_addr ), "_raop._tcp",
-                    ".",            $port,
-                    "tp=UDP",       "sm=false",
-                    "sv=false",     "ek=1",
-                    "et=0,1",       "md=0,1,2",
-                    "cn=0,1",       "ch=2",
-                    "ss=16",        "sr=44100",
-                    $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
-                );
-                $log->error( "start dns-sd failed" );
-            }
-            else {
-                $log->info( "dns-sd not in path" );
-            }
-        };
-        eval {
-            if ( which('mDNSPublish') ) {
-                $log->info( "start mDNSPublish \"$apname\"" );
-                exec(
-                    'mDNSPublish', join( '', map { sprintf "%02X", $_ } @hw_addr ),
-                    "_raop._tcp",   $port,
-                    "tp=UDP",       "sm=false",
-                    "sv=false",     "ek=1",
-                    "et=0,1",       "md=0,1,2",
-                    "cn=0,1",       "ch=2",
-                    "ss=16",        "sr=44100",
-                    $pw_clause,     "vn=3",
-                    "txtvers=1",    "Name=$apname"
-                );
-                $log->error( "start mDNSPublish failed" );
-            }
-            else {
-                $log->info( "mDNSPublish not in path" );
-            }
-        };
-        $log->error( "could not run avahi-publish-service nor dns-sd nor mDNSPublish" );
     }
 
     return $pid;
