@@ -2,6 +2,7 @@ package Plugins::ShairTunes2::Plugin;
 
 use strict;
 use warnings;
+use utf8;
 
 use Plugins::ShairTunes2::AIRPLAY;
 use Plugins::ShairTunes2::Utils;
