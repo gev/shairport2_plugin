@@ -216,7 +216,7 @@ sub publishPlayer {
     my $pw_clause = ( length $password ) ? "pw=true" : "pw=false";
     my @hw_addr = +( map( ord, split( //, $md5 ) ) )[ 0 .. 5 ];
 
-    my $host = "_$md5";
+    my $host = "squeezebox";
 
     my $pid = fork();
     if ( $pid == 0 ) {
