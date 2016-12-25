@@ -220,7 +220,7 @@ sub publishPlayer {
         eval {
             $log->info( "start avahi-publish-service \"$apname\"" );
             exec(
-                'avahi-publish-service', $apname,
+                'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$apname",
                 "_raop._tcp",   $port,
                 "tp=UDP",       "sm=false",
                 "sv=false",     "ek=1",
