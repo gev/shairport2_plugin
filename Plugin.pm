@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Encode qw(encode_utf8);
+
 use Plugins::ShairTunes2::AIRPLAY;
 use Plugins::ShairTunes2::Utils;
 
@@ -213,7 +215,7 @@ sub publishPlayer {
     my ( $apname, $password, $port ) = @_;
 
     my $pw_clause = ( length $password ) ? "pw=true" : "pw=false";
-    my @hw_addr = +( map( ord, split( //, md5( $apname ) ) ) )[ 0 .. 5 ];
+    my @hw_addr = +( map( ord, split( //, md5( encode_utf8( $apname ) ) ) ) )[ 0 .. 5 ];
 
     my $pid = fork();
     if ( $pid == 0 ) {
