@@ -211,8 +211,12 @@ sub revoke_publishPlayer {
 sub publishPlayer {
     my ( $apname, $password, $port ) = @_;
 
+    my $md5 = md5( $apname );
+
     my $pw_clause = ( length $password ) ? "pw=true" : "pw=false";
-    my @hw_addr = +( map( ord, split( //, md5( $apname ) ) ) )[ 0 .. 5 ];
+    my @hw_addr = +( map( ord, split( //, $md5 ) ) )[ 0 .. 5 ];
+
+    my $host = "_$md5";
 
     my $pid = fork();
     if ( $pid == 0 ) {
@@ -221,15 +225,15 @@ sub publishPlayer {
             if ( which('avahi-publish-service') ) {
                 $log->info( "start avahi-publish-service \"$apname\"" );
                 exec(
-                    'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$apname",
-                    "_raop._tcp",            $port,
-                    "tp=UDP",                "sm=false",
-                    "sv=false",              "ek=1",
-                    "et=0,1",                "md=0,1,2",
-                    "cn=0,1",                "ch=2",
-                    "ss=16",                 "sr=44100",
-                    $pw_clause,              "vn=3",
-                    "txtvers=1"
+                    'avahi-publish-service', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host",
+                    "_raop._tcp",   $port,
+                    "tp=UDP",       "sm=false",
+                    "sv=false",     "ek=1",
+                    "et=0,1",       "md=0,1,2",
+                    "cn=0,1",       "ch=2",
+                    "ss=16",        "sr=44100",
+                    $pw_clause,     "vn=3",
+                    "txtvers=1",    "Name=$apname"
                 );
                 $log->error( "start avahi-publish-service failed" );
             }
@@ -242,15 +246,15 @@ sub publishPlayer {
                 $log->info( "start dns-sd \"$apname\"" );
                 exec(
                     'dns-sd', '-R',
-                    join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$apname", "_raop._tcp",
-                    ".",        $port,
-                    "tp=UDP",   "sm=false",
-                    "sv=false", "ek=1",
-                    "et=0,1",   "md=0,1,2",
-                    "cn=0,1",   "ch=2",
-                    "ss=16",    "sr=44100",
-                    $pw_clause, "vn=3",
-                    "txtvers=1"
+                    join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host", "_raop._tcp",
+                    ".",            $port,
+                    "tp=UDP",       "sm=false",
+                    "sv=false",     "ek=1",
+                    "et=0,1",       "md=0,1,2",
+                    "cn=0,1",       "ch=2",
+                    "ss=16",        "sr=44100",
+                    $pw_clause,     "vn=3",
+                    "txtvers=1",    "Name=$apname"
                 );
                 $log->error( "start dns-sd failed" );
             }
@@ -262,15 +266,15 @@ sub publishPlayer {
             if ( which('mDNSPublish') ) {
                 $log->info( "start mDNSPublish \"$apname\"" );
                 exec(
-                    'mDNSPublish', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$apname",
-                    "_raop._tcp",  $port,
-                    "tp=UDP",      "sm=false",
-                    "sv=false",    "ek=1",
-                    "et=0,1",      "md=0,1,2",
-                    "cn=0,1",      "ch=2",
-                    "ss=16",       "sr=44100",
-                    $pw_clause,    "vn=3",
-                    "txtvers=1"
+                    'mDNSPublish', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host",
+                    "_raop._tcp",   $port,
+                    "tp=UDP",       "sm=false",
+                    "sv=false",     "ek=1",
+                    "et=0,1",       "md=0,1,2",
+                    "cn=0,1",       "ch=2",
+                    "ss=16",        "sr=44100",
+                    $pw_clause,     "vn=3",
+                    "txtvers=1",    "Name=$apname"
                 );
                 $log->error( "start mDNSPublish failed" );
             }
