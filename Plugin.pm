@@ -242,7 +242,7 @@ sub publishPlayer {
                 $log->info( "start dns-sd \"$apname\"" );
                 exec(
                     'dns-sd', '-R',
-                    join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host", "_raop._tcp",
+                    join( '', map { sprintf "%02X", $_ } @hw_addr ), "_raop._tcp",
                     ".",            $port,
                     "tp=UDP",       "sm=false",
                     "sv=false",     "ek=1",
@@ -262,7 +262,7 @@ sub publishPlayer {
             if ( which('mDNSPublish') ) {
                 $log->info( "start mDNSPublish \"$apname\"" );
                 exec(
-                    'mDNSPublish', join( '', map { sprintf "%02X", $_ } @hw_addr ) . "\@$host",
+                    'mDNSPublish', join( '', map { sprintf "%02X", $_ } @hw_addr ),
                     "_raop._tcp",   $port,
                     "tp=UDP",       "sm=false",
                     "sv=false",     "ek=1",
