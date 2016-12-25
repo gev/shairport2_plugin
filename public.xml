@@ -6,9 +6,7 @@
     <plugin name="ShairTunes2" version="0.20" minTarget="7.5" maxTarget="*">
       <title lang="EN">ShairTunes2</title>
       <desc lang="EN">Airtunes for LMS</desc>
-      <url>
-        https://raw.github.com/gev/shairport2_plugin/master/ShairTunes2.zip
-      </url>
+      <url>https://raw.github.com/gev/shairport2_plugin/master/ShairTunes2.zip</url>
       <link>https://github.com/gev/shairport2_plugin</link>
       <sha>3d27068817b357f5ccb6d166500a292127c613d6</sha>
       <creator>Evgeny Gazdovsky</creator>
