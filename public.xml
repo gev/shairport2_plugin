@@ -3,12 +3,12 @@
     <title lang="EN">ShairTunes2 Plugin</title>
   </details>
   <plugins>
-    <plugin name="ShairTunes2" version="0.28" minTarget="7.5" maxTarget="*">
+    <plugin name="ShairTunes2" version="0.29" minTarget="7.5" maxTarget="*">
       <title lang="EN">ShairTunes2</title>
       <desc lang="EN">Airtunes for LMS</desc>
       <url>https://raw.github.com/gev/shairport2_plugin/master/ShairTunes2.zip</url>
       <link>https://github.com/gev/shairport2_plugin</link>
-      <sha>c2e3cdd9cc7ac48012a1b3ee6413e76022bb2783</sha>
+      <sha>5ce1348bf7e8c032e90abcc18c5700b28341164b</sha>
       <creator>Evgeny Gazdovsky</creator>
       <email>gazdovsky@gmail.com</email>
     </plugin>
